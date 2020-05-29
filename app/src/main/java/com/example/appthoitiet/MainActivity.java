@@ -1,10 +1,12 @@
 package com.example.appthoitiet;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -39,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     ItemWeatherAdapter itemWeatherAdapter;
     WeatherItemDB weatherItemDB;
     Button btnSearch;
-    private TextView textViewWeatherMain;
+    ImageView imageViewWeatherIcon;
+    private TextView textViewHumidity, textViewTemperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 //            weatherItemDB.them(weather);
 //        }
         layTatCaDuLieu();
+//        textViewWeatherMain.setText("HANOI");
+
+//        textViewWeatherMain.setText(getIntent().getExtras().getString("LOCATION"));
     }
 
     private void setControl() {
@@ -81,10 +88,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(itemWeatherAdapter);
 
-        textViewWeatherMain = findViewById(R.id.textViewWeatherMain);
-        btnSearch = findViewById(R.id.btnSearch);
-    }
+        textViewHumidity = findViewById(R.id.textViewHumidity);
+        textViewTemperature = findViewById(R.id.textViewTemperature);
+       imageViewWeatherIcon = findViewById(R.id.imageViewWeatherIcon);
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final String result = data.getStringExtra("LOCATION");
+        // Sử dụng kết quả result bằng cách hiện Toast
+        Toast.makeText(this, "Result: " + result, Toast.LENGTH_LONG).show();
+    }
     public void layTatCaDuLieu() {
         Cursor cursor = weatherItemDB.layTatCaDuLieu();
         if(cursor != null) {
@@ -99,7 +114,26 @@ public class MainActivity extends AppCompatActivity {
                 hd.setNhietDoTrungBinh(cursor.getString(5));
                 hd.setColor(cursor.getString(6));
                 hd.setImage(cursor.getString(7));
+                hd.setHumidity(cursor.getString(8));
                 weatherList.add(hd);
+            }
+            Calendar calendar = Calendar.getInstance();
+            int toDay = calendar.get(Calendar.DAY_OF_WEEK);
+            toDay = toDay - 1;
+            if(toDay == 0) {
+                textViewTemperature.setText(weatherList.get(6).getNhietDoTrungBinh() + "°");
+                textViewHumidity.setText(weatherList.get(6).getHumidity() + "%");
+                String name = "a" + weatherList.get(toDay - 1).getImage() + "_svg";
+                int resID = getResources().getIdentifier( name, "drawable" , getPackageName()) ;
+                imageViewWeatherIcon.setImageResource(resID);
+            } else {
+                textViewTemperature.setText(weatherList.get(toDay - 1).getNhietDoTrungBinh() + "°");
+                String name = "a" + weatherList.get(toDay - 1).getImage() + "_svg";
+                int resID = getResources().getIdentifier( name, "drawable" , getPackageName()) ;
+                imageViewWeatherIcon.setImageResource(resID);
+                textViewHumidity.setText(weatherList.get(toDay - 1).getHumidity() + "%");
+
+
             }
             itemWeatherAdapter.notifyDataSetChanged();
         }

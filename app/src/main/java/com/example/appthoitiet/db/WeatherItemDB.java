@@ -33,6 +33,7 @@ public class WeatherItemDB {
                 DBHelper.COT_NHIET_DO_TRUNG_BINH,
                 DBHelper.COT_COLOR,
                 DBHelper.COT_IMAGE,
+                DBHelper.COT_HUMIDITY,
         };
 
         Cursor cursor = null;

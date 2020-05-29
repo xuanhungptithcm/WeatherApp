@@ -77,6 +77,14 @@ public class SearchLocationActivity extends AppCompatActivity {
 //            weather.setHumidity("80");
 //            weatherItemDB.them(weather);
 //        }
+        btnSearchLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String locaiton = txtLocation.getText().toString().trim();
+                getDataWeatherByLocation(locaiton);
+
+            }
+        });
         listLocation.add("Ha Noi");
         listLocation.add("Ho Chi Minh");
         listLocation.add("Hue");
@@ -94,7 +102,7 @@ public class SearchLocationActivity extends AppCompatActivity {
         });
     }
     public void getDataWeatherByLocation(String location) {
-        String url = BASE_URL + "weather?q=" + "HaNoi" + "&appid=" + API_KEY_VALUE;
+        String url = BASE_URL + "weather?q=" + location + "&appid=" + API_KEY_VALUE;
         RequestQueue requestQueue = Volley.newRequestQueue(SearchLocationActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -111,12 +119,12 @@ public class SearchLocationActivity extends AppCompatActivity {
 
                             String icon = jsonObjectWeather.getString("icon");
 
-
+                            Toast.makeText(getApplicationContext(), "Lấy Thông Tin Khu Vực " + tenThanhPho + " Thành Công", Toast.LENGTH_LONG).show();
                             JSONObject jsonObjectMain = result.getJSONObject("main");
                             String minTemp = String.valueOf(String.format("%.1f", Float.parseFloat(jsonObjectMain.getString("temp_min")) - 273.15) );
                             String maxTemp = String.valueOf(String.format("%.1f", Float.parseFloat(jsonObjectMain.getString("temp_max")) - 273.15));
                             String temp = String.valueOf(String.format("%.1f", Float.parseFloat(jsonObjectMain.getString("temp")) - 273.15));
-                            String humidity = jsonObjectMain.getString("humidity");
+                            String humidity = String.valueOf(jsonObjectMain.getInt("humidity"));
                             String day = result.getString("dt");
                             long l = Long.parseLong(day);
                             Date date = new Date(l * 1000L);
@@ -143,6 +151,7 @@ public class SearchLocationActivity extends AppCompatActivity {
                             weather.setHumidity(humidity);
                             weatherItemDB.sua(weather,toDay);
                             Intent i = new Intent(SearchLocationActivity.this, MainActivity.class);
+                            i.putExtra("LOCATION", tenThanhPho);
                             startActivity(i);
 
                         } catch (JSONException e) {
@@ -154,7 +163,7 @@ public class SearchLocationActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Food source is not responding (USDA API)", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Vui lòng kiểm tra tên khu vực vừa tìm kiếm", Toast.LENGTH_LONG).show();
                     }
                 }
         );
