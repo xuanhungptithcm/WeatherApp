@@ -8,16 +8,38 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.JsonReader;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appthoitiet.db.WeatherItemDB;
 import com.example.appthoitiet.entities.Weather;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
@@ -26,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ItemWeatherAdapter itemWeatherAdapter;
     WeatherItemDB weatherItemDB;
+    Button btnSearch;
+    private TextView textViewWeatherMain;
+    String  BASE_URL = "https://api.openweathermap.org/data/2.5/";
+    String API_KEY_VALUE = "751d80f6c314139192ffcb62c107e654";
+    String  RATE_LIMITER_TYPE = "data";
+    String API_KEY_QUERY = "appid";
+    String APPLICATION_ID = "plNW8IW0YOIN";
+    String SEARCH_API_KEY = "029766644cb160efa51f2a32284310eb";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
 //            weatherItemDB.them(weather);
 //        }
         layTatCaDuLieu();
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDataWeatherByLocation("");
+            }
+        });
     }
 
     private void setControl() {
@@ -64,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(itemWeatherAdapter);
+
+        textViewWeatherMain = findViewById(R.id.textViewWeatherMain);
+        btnSearch = findViewById(R.id.btnSearch);
     }
     public int getColorOfDay(int day) {
         if(day >=1 && day<=7) {
@@ -117,5 +156,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return Color.parseColor("#28E0AE");
+    }
+    public void getDataWeatherByLocation(String location) {
+        String url = BASE_URL + "weather?q=" + "HaNoi" + "&appid=" + API_KEY_VALUE;
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getApplicationContext(), "OKE", Toast.LENGTH_LONG).show();
+                        try {
+                            JSONObject result = new JSONObject(response);
+                            String tenThanhPho = result.getString("name");
+                            textViewWeatherMain.setText(tenThanhPho);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Food source is not responding (USDA API)", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        requestQueue.add(stringRequest);
     }
 }

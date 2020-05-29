@@ -21,11 +21,58 @@
                 android:layout_height="wrap_content"
                 tools:ignore="UselessParent">
 
+                <LinearLayout
+                    android:id="@+id/layout_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/txtLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:text="Name" />
+
+                    <Button
+                        android:id="@+id/btnSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@android:string/search_go" />
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/container_forecast"
+                    layout="@layout/layout_dashboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_search"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="32dp" />
+
+                <TextView
+                    android:id="@+id/textViewForecastHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/container_forecast"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/next_5_days"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="42dp"
+                    android:layout_below="@+id/textViewForecastHeader"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="0dp"
                     android:orientation="horizontal"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_weather" />
