@@ -10,4 +10,6 @@
     <color name="mainTextColor">#130E51</color>
     <color name="chipItemBackgroundColor">#1AADA7FE</color>
     <color name="chipTextColor">#5D50FE</color>
+    <color name="btnLogin">#3366ff</color>
+    <color name="btbnRegister">#00d68f</color>
 </resources>

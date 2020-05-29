@@ -9,6 +9,15 @@ public class Weather {
     private String nhietDoTrungBinh;
     private String color;
     private String image;
+    private String humidity;
+
+    public String getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(String humidity) {
+        this.humidity = humidity;
+    }
 
     public String getColor() {
         return color;

@@ -5,10 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper  extends SQLiteOpenHelper {
-
-    public static  final String TEN_DATABASE = "WeatherApp";
+    public static final String TEN_DATABASE = "WeatherApp";
     public static final String TEN_BANG_WEATHER_ITEM= "WeatherItem";
-
+    public static final String TEN_BANG_USER= "User";
     public static final  String COT_ID = "_id";
     public static final  String COT_DAY = "_day";
     public static final  String COT_TIME = "_time";
@@ -17,6 +16,7 @@ public class DBHelper  extends SQLiteOpenHelper {
     public static final  String COT_NHIET_DO_TRUNG_BINH = "_nhietDoTrungBinh";
     public static final  String COT_COLOR = "_color";
     public static final  String COT_IMAGE = "_image";
+    public static final  String COT_HUMIDITY = "_humidity";
     public static final  String TAO_BANG_WEATHER_ITEM = "create table " + TEN_BANG_WEATHER_ITEM + " ( "
             + COT_ID + " integer primary key autoincrement , "
             + COT_DAY + " text not null, "
@@ -25,10 +25,18 @@ public class DBHelper  extends SQLiteOpenHelper {
             + COT_NHIET_DO_THAP_NHAT + " text not null, "
             + COT_NHIET_DO_TRUNG_BINH + " text not null, "
             + COT_COLOR + " text not null, "
-            + COT_IMAGE + " text not null );";
+            + COT_IMAGE + " text not null, "
+            + COT_HUMIDITY + " text not null );";
 
+    public static final  String COT_EMAIL = "_email";
+    public static final  String COT_PASSWORD = "_password";
+    public static final  String TAO_BANG_USER = "create table " + TEN_BANG_USER + " ( "
+            + COT_ID + " integer primary key autoincrement , "
+            + COT_EMAIL + " text not null, "
+            + COT_PASSWORD + " text not null );";
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(TAO_BANG_USER);
         db.execSQL(TAO_BANG_WEATHER_ITEM);
     }
 

@@ -48,11 +48,18 @@ public class WeatherItemDB {
         values.put(DBHelper.COT_NHIET_DO_TRUNG_BINH, hd.getNhietDoTrungBinh());
         values.put(DBHelper.COT_COLOR, hd.getColor());
         values.put(DBHelper.COT_IMAGE, hd.getImage());
+        values.put(DBHelper.COT_HUMIDITY, hd.getHumidity());
         return database.insert(DBHelper.TEN_BANG_WEATHER_ITEM, null, values);
 
     }
 
-    public long sua(Weather hd) {
+    public long sua(Weather hd, int index) {
+        int id;
+        if(index == 0) {
+            id = 7;
+        } else {
+            id = index;
+        }
         ContentValues values = new ContentValues();
         values.put(DBHelper.COT_DAY, hd.getDay());
         values.put(DBHelper.COT_TIME, hd.getTime());
@@ -61,6 +68,7 @@ public class WeatherItemDB {
         values.put(DBHelper.COT_NHIET_DO_TRUNG_BINH, hd.getNhietDoTrungBinh());
         values.put(DBHelper.COT_COLOR, hd.getColor());
         values.put(DBHelper.COT_IMAGE, hd.getImage());
-        return database.update(DBHelper.TEN_BANG_WEATHER_ITEM, values, DBHelper.COT_ID + " = " + hd.getId(), null);
+        values.put(DBHelper.COT_HUMIDITY, hd.getHumidity());
+        return database.update(DBHelper.TEN_BANG_WEATHER_ITEM, values, DBHelper.COT_ID + " = " +id, null);
     }
 }

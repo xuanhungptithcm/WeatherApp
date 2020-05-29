@@ -23,11 +23,11 @@
 
             <ImageView
                 android:id="@+id/imageViewWeatherIcon"
-                android:layout_width="124dp"
-                android:layout_height="124dp"
+                android:layout_width="114dp"
+                android:layout_height="114dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginLeft="36dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="18dp"
                 tools:src="@drawable/a01d_svg" />
 
             <TextView
@@ -35,12 +35,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="48dp"
-                android:layout_marginRight="36dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="46dp"
                 android:text="25°"
                 android:textColor="@color/white"
-                android:textSize="100sp"
-                tools:text="25°" />
+                android:textSize="80sp"
+                tools:text="25°"
+                android:layout_marginEnd="46dp" />
 
             <TextView
                 android:id="@+id/textViewWeatherMain"
@@ -71,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textViewHumidityHeader"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="14dp"
                 android:text="35°"
                 android:textColor="@color/whiteWithOpacity"
                 android:textSize="27sp"
