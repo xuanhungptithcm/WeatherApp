@@ -37,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
     private void setEvent() {
         Random generator = new Random();
         weatherItemDB = new WeatherItemDB(this);
-        for(int i=1;i<=7;i++) {
-            Weather weather = new Weather();
-            weather.setDay(String.valueOf(i));
-            weather.setColor(String.valueOf(getColorOfDay(i)));
-            weather.setNhietDoThapNhat(String.valueOf(generator.nextInt(21) + 20));
-            weather.setNhietDoCaoNhat(String.valueOf(generator.nextInt(21) + 20));
-            weather.setNhietDoTrungBinh(String.valueOf(generator.nextInt(21) + 20));
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("hh:MM");
-            String strDate = formatter.format(date);
-            weather.setTime(strDate);
-            weather.setImage("00:00");
-            weatherItemDB.them(weather);
-        }
+//        for(int i=1;i<=7;i++) {
+//            Weather weather = new Weather();
+//            weather.setDay(String.valueOf(i), "INIT");
+//            weather.setColor(String.valueOf(getColorOfDay(i)));
+//            weather.setNhietDoThapNhat(String.valueOf(generator.nextInt(21) + 20));
+//            weather.setNhietDoCaoNhat(String.valueOf(generator.nextInt(21) + 20));
+//            weather.setNhietDoTrungBinh(String.valueOf(generator.nextInt(21) + 20));
+//            Date date = new Date();
+//            SimpleDateFormat formatter = new SimpleDateFormat("hh:MM");
+//            String strDate = formatter.format(date);
+//            weather.setTime(strDate);
+//            weather.setImage("00:00");
+//            weatherItemDB.them(weather);
+//        }
         layTatCaDuLieu();
     }
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             while (cursor.moveToNext()) {
                 Weather hd = new Weather();
                 hd.setId(String.valueOf(cursor.getInt(0)));
-                hd.setDay(cursor.getString(1));
+                hd.setDay(cursor.getString(1), "");
                 hd.setTime(cursor.getString(2));
                 hd.setNhietDoCaoNhat(cursor.getString(3));
                 hd.setNhietDoThapNhat(cursor.getString(4));

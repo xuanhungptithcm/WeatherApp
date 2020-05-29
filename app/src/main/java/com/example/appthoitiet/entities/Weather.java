@@ -41,40 +41,45 @@ public class Weather {
         return day;
     }
 
-    public void setDay(String day) {
-        switch (day) {
-            case "1": {
-                this.day = "MONDAY";
-                break;
+    public void setDay(String day, String type) {
+        if(type.equals("INIT")) {
+            switch (day) {
+                case "1": {
+                    this.day = "MONDAY";
+                    break;
+                }
+                case "2": {
+                    this.day = "TUESDAY";
+                    break;
+                }
+                case "3": {
+                    this.day = "WEDNESDAY";
+                    break;
+                }
+                case "4": {
+                    this.day = "THURSDAY";
+                    break;
+                }
+                case "5": {
+                    this.day = "FRIDAY";
+                    break;
+                }
+                case "6": {
+                    this.day = "SATURDAY";
+                    break;
+                }
+                case "7": {
+                    this.day = "SUNDAY";
+                    break;
+                }
+                default: {
+                    this.day = "MONDAY";
+                }
             }
-            case "2": {
-                this.day = "TUESDAY";
-                break;
-            }
-            case "3": {
-                this.day = "WEDNESDAY";
-                break;
-            }
-            case "4": {
-                this.day = "THURSDAY";
-                break;
-            }
-            case "5": {
-                this.day = "FRIDAY";
-                break;
-            }
-            case "6": {
-                this.day = "SATURDAY";
-                break;
-            }
-            case "7": {
-                this.day = "SUNDAY";
-                break;
-            }
-            default: {
-                this.day = "MONDAY";
-            }
+        } else {
+            this.day = day;
         }
+
 
     }
 
