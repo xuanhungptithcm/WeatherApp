@@ -60,7 +60,7 @@ public class ItemWeatherAdapter   extends RecyclerView.Adapter<ItemWeatherAdapte
         holder.textViewTimeOfDay.setText(weather.getTime());
         holder.textViewDayOfWeek.setText(weather.getDay());
         cardView.setCardBackgroundColor(Integer.parseInt(weather.getColor()));
-        imageViewForecastIcon.setImageResource(R.drawable.a13d_svg);
+        imageViewForecastIcon.setImageResource(R.drawable.a01d_svg);
         /*Sự kiện click vào item*/
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

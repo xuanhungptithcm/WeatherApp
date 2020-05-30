@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,24 +14,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.appthoitiet.db.WeatherItemDB;
 import com.example.appthoitiet.entities.Weather;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
@@ -54,35 +42,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
-     //   Random generator = new Random();
         weatherItemDB = new WeatherItemDB(this);
-//        for(int i=1;i<=7;i++) {
-//            Weather weather = new Weather();
-//            weather.setDay(String.valueOf(i), "INIT");
-//            weather.setColor(String.valueOf(getColorOfDay(i)));
-//            weather.setNhietDoThapNhat(String.valueOf(generator.nextInt(21) + 20));
-//            weather.setNhietDoCaoNhat(String.valueOf(generator.nextInt(21) + 20));
-//            weather.setNhietDoTrungBinh(String.valueOf(generator.nextInt(21) + 20));
-//            Date date = new Date();
-//            SimpleDateFormat formatter = new SimpleDateFormat("hh:MM");
-//            String strDate = formatter.format(date);
-//            weather.setTime(strDate);
-//            weather.setImage("00:00");
-//            weather.setHumidity("80");
-//            weatherItemDB.them(weather);
-//        }
         layTatCaDuLieu();
-//        textViewWeatherMain.setText("HANOI");
-
-//        textViewWeatherMain.setText(getIntent().getExtras().getString("LOCATION"));
     }
 
     private void setControl() {
         recyclerView = findViewById(R.id.recyclerView);
         itemWeatherAdapter = new ItemWeatherAdapter(this,weatherList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), HORIZONTAL , false);
-//        StaggeredGridLayoutManager gridLayoutManager =
-//                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
