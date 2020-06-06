@@ -32,6 +32,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appthoitiet.db.WeatherItemDB;
 import com.example.appthoitiet.entities.Weather;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -55,6 +60,7 @@ import java.util.Locale;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
     private TextView textViewHumidity, textViewTemperature, mTvCurrentLocation;
     SearchLocationActivity searchLocationActivity;
 // location
-
+        ArrayList<Entry> dataVals = new ArrayList<>();
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final long UPDATE_INTERVAL = 5000;
     private static final long FASTEST_INTERVAL = 5000;
@@ -80,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
     private Location mLastLocation;
     private boolean mIsAutoUpdateLocation;
     private Button mBtnGetLocation;
+    LineChart mpLineChart;
+    LineDataSet lineDataSet1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
             e.printStackTrace();
         }
         socket.connect();
+        socket.on("data",onListnerDataSocket);
         setControl();
         setEvent();
         Log.d(TAG, "onCreate");
@@ -116,6 +125,28 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
                 }
             }
         });
+        dataVals.add(new Entry(0,20));
+        dataVals.add(new Entry(1,24));
+        dataVals.add(new Entry(2,2));
+        dataVals.add(new Entry(3,10));
+        dataVals.add(new Entry(4,28));
+        lineDataSet1 = new LineDataSet(dataVals, "Biểu đồ độ ẩm Real Time");
+        ArrayList<ILineDataSet> dataSets= new ArrayList<>();
+        dataSets.add(lineDataSet1);
+        LineData data = new LineData(dataSets);
+
+//        mpLineChart.setBackgroundColor(Color.parseColor("#303F9F"));
+//        mpLineChart.setDrawBorders(true);
+//        mpLineChart.setBorderColor(Color.WHITE);
+//        lineDataSet1.setColor(Color.RED);
+        mpLineChart.animateX(1000);
+        mpLineChart.setDragEnabled(true);
+        mpLineChart.setDrawGridBackground(false);
+        mpLineChart.setTouchEnabled(true);
+        mpLineChart.getDescription().setEnabled(false);
+        mpLineChart.setData(data);
+        mpLineChart.invalidate();
+
         layTatCaDuLieu();
     }
 
@@ -133,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
         imageViewWeatherIcon = findViewById(R.id.imageViewWeatherIcon);
         mTvCurrentLocation = findViewById(R.id.mTvCurrentLocation);
         mBtnGetLocation = findViewById(R.id.mBtnGetLocation);
+        mpLineChart = findViewById(R.id.line_chart);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -212,6 +244,67 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
         }
         return Color.parseColor("#28E0AE");
     }
+
+//    private  ArrayList<Entry> dataValues1() {
+//
+//        dataVals.add(new Entry(0,20));
+//        dataVals.add(new Entry(1,24));
+//        dataVals.add(new Entry(2,2));
+//        dataVals.add(new Entry(3,10));
+//        dataVals.add(new Entry(4,28));
+//
+//
+//
+//        return  dataVals;
+//    }
+
+    private Emitter.Listener onListnerDataSocket = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject object =(JSONObject) args[0];
+                    try {
+                        String doAm = object.getString("doAm");
+                        Float dataX = dataVals.get(dataVals.size() -1).getX();
+                        dataX++;
+                        dataVals.add(new Entry(dataX, Float.parseFloat(doAm)));
+                       // Toast.makeText(MainActivity.this, "HIHIHIHI=" + doAm + "index=" + dataX, Toast.LENGTH_SHORT).show();
+                        lineDataSet1 = new LineDataSet(dataVals, "Biểu đồ độ ẩm Real Time");
+                        ArrayList<ILineDataSet> dataSets= new ArrayList<>();
+                        dataSets.add(lineDataSet1);
+                        LineData data = new LineData(dataSets);
+                        mpLineChart.setData(data);
+                        mpLineChart.invalidate();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
