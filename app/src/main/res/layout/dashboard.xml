@@ -26,8 +26,9 @@
                     layout="@layout/layout_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="72dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="32dp" />
 
@@ -48,12 +49,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewForecastHeader"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="31dp"
                     android:layout_marginBottom="0dp"
                     android:orientation="horizontal"
                     tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_weather" />
+
+                <TextView
+                    android:id="@+id/mTvCurrentLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginEnd="244dp"
+                    android:layout_marginRight="244dp" />
+
+                <Button
+                    android:id="@+id/mBtnGetLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="19dp"
+                    android:layout_marginRight="19dp"
+                    android:layout_weight="1"
+                    android:text="Cập nhật theo vị trí" />
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

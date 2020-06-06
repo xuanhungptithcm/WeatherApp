@@ -81,7 +81,11 @@ public class SearchLocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String locaiton = txtLocation.getText().toString().trim();
-                getDataWeatherByLocation(locaiton);
+                if(locaiton.equals("")) {
+                    Toast.makeText(getApplicationContext(),"Tên khu vực không được bỏ trống",Toast.LENGTH_LONG).show();
+                } else {
+                    getDataWeatherByLocation(locaiton, "");
+                }
 
             }
         });
@@ -97,12 +101,22 @@ public class SearchLocationActivity extends AppCompatActivity {
         lsvLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getDataWeatherByLocation(listLocation.get(position));
+                getDataWeatherByLocation(listLocation.get(position), "");
             }
         });
     }
-    public void getDataWeatherByLocation(String location) {
-        String url = BASE_URL + "weather?q=" + location + "&appid=" + API_KEY_VALUE;
+    public void getDataWeatherByLocation(String location, String mode) {
+        String url = "";
+        if(mode.equals("")) {
+            url = BASE_URL + "weather?q=" + location + "&appid=" + API_KEY_VALUE;
+        } else {
+            float lat, lon;
+            String arr[] = mode.split("_");
+            lat = Float.parseFloat(arr[0]);
+            lon = Float.parseFloat(arr[1]);
+            Toast.makeText(getApplicationContext(), lat+ "====" + lon, Toast.LENGTH_LONG).show();
+            url = BASE_URL + "weather?lat=" + lat + "&lon=" + lon + "&appid=" +API_KEY_VALUE;
+        }
         RequestQueue requestQueue = Volley.newRequestQueue(SearchLocationActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
