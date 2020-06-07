@@ -1,6 +1,9 @@
 package com.example.appthoitiet;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
             public void onClick(View v) {
                 if (isGpsOn()) {
                     updateUi();
+                    addNotification();
                 } else {
                     Toast.makeText(MainActivity.this, "GPS is OFF", Toast.LENGTH_SHORT).show();
                 }
@@ -293,7 +297,20 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
 
 
 
+   private void addNotification() {
+       NotificationManager notificationManager =
+               (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+       int notifyId = 1;
+       String channelId = "some_channel_id";
 
+       Notification notification = new Notification.Builder(MainActivity.this)
+               .setContentTitle("Some Message")
+               .setContentText("You've received new messages!")
+               .setSmallIcon(R.drawable.a01d_svg)
+               .build();
+
+       notificationManager.notify(1, notification);
+    }
 
 
 
