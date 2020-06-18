@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements   GoogleApiClient
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
         try {
-            socket = IO.socket("http://192.168.1.5:3000");
+            socket = IO.socket("http://118.69.171.113:3000");
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
